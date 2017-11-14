@@ -1,8 +1,6 @@
 const express = require('../index.js')
 const app = express()
 
-let responseMessage = ''
-
 app.get(function(req, res, next) {
   req.user = {
     name: 'foo'
@@ -11,11 +9,12 @@ app.get(function(req, res, next) {
 })
 
 app.get(function(req, res, next) {
-  res.end(`User name is ${req.user.name}`)
-})
-
-app.post(function(req, res, next) {
-  res.end('You send POST request')
+  req.article = {
+    title: 'bar'
+  }
+  next()
+}, function(req, res, next) {
+  res.end(`User name is ${req.user.name} and Artitle title is ${req.article.title}`)
 })
 
 app.listen(3000)
