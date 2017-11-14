@@ -1,19 +1,20 @@
 const express = require('../index.js')
 const app = express()
-app.get(function(req, res) {
-  res.end('You send GET request')
+
+app.get(function (req, res, next) {
+  req.user = {
+    name: 'foo'
+  }
+  next()
 })
 
-app.post(function(req, res) {
-  res.end('You send POST request')
-})
-
-app.put(function(req, res) {
-  res.end('You send PUT request')
-})
-
-app.delete(function(req, res) {
-  res.end('You send DELETE request')
+app.get(function (req, res, next) {
+  req.article = {
+    title: 'bar'
+  }
+  next()
+}, function (req, res, next) {
+  res.end(`User name is ${req.user.name} and Artitle title is ${req.article.title}`)
 })
 
 app.listen(3000)
